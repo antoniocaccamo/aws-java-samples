@@ -9,10 +9,6 @@ import picocli.CommandLine;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * @author antoniocaccamo on 22/08/2019.
  */

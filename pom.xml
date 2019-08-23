@@ -28,6 +28,7 @@
 
     <modules>
         <module>s3</module>
+        <module>cognito</module>
     </modules>
 
     <dependencies>
@@ -38,9 +39,9 @@
         </dependency>
 
         <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-parent</artifactId>-->
-            <!--<version></version>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-parent</artifactId>-->
+        <!--<version></version>-->
         <!--</dependency>-->
 
         <dependency>
@@ -53,7 +54,7 @@
             <artifactId>logback-classic</artifactId>
         </dependency>
     </dependencies>
-    
+
 
     <dependencyManagement>
 
@@ -91,8 +92,6 @@
                 <version>1.2.3</version>
             </dependency>
 
-
-
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -105,19 +104,7 @@
 
     </dependencyManagement>
 
-    <repositories>
-        <repository>
-            <id>spring-releases</id>
-            <url>https://repo.spring.io/libs-release</url>
-        </repository>
-    </repositories>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-releases</id>
-            <url>https://repo.spring.io/libs-release</url>
-        </pluginRepository>
-    </pluginRepositories>
 
 
 </project>

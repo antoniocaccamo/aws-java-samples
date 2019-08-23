@@ -23,3 +23,6 @@
 hs_err_pid*
 **/target
 **/*.iml
+**/.settings/*
+**/.*path
+**/.project

@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
 
@@ -9,12 +9,12 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>aws-java-sample-s3</artifactId>
+    <artifactId>aws-java-sample-cognito</artifactId>
 
-    <name>aws : java-sample : s3</name>
+    <name>aws : java-sample : cognito</name>
 
     <properties>
-        <main-class>aws.sample.s3.Main</main-class>
+        <main-class>aws.sample.cognito.Main</main-class>
     </properties>
 
     <dependencies>
@@ -26,7 +26,17 @@
 
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
-            <artifactId>s3</artifactId>
+            <artifactId>cognitoidentity</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>cognitoidentityprovider</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>cognitosync</artifactId>
         </dependency>
 
         <dependency>
