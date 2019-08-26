@@ -1,9 +1,9 @@
 app:
     aws:
         cognito:
-            pool-id :  eu-west-1
+            pool-id :  eu-west-1_gVkypexZ5
             fed-pool-id : eu-west-1
-            client-id :
+            client-id : 22r8knu4ufkvegd2ee56rbshgs
             region: eu-west-1
             domain-name :
 

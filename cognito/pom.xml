@@ -83,4 +83,11 @@
         </plugins>
     </build>
 
+    <repositories>
+    <repository>
+      <id>jcenter.bintray.com</id>
+      <url>https://jcenter.bintray.com</url>
+    </repository>
+  </repositories>
+
 </project>

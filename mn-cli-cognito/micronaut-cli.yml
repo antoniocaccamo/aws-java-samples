@@ -1,0 +1,5 @@
+profile: cli
+defaultPackage: mn.cli.cognito
+---
+testFramework: junit
+sourceLanguage: java

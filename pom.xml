@@ -22,21 +22,22 @@
         <lombok.version>1.18.8</lombok.version>
         <picocli.version>4.0.2</picocli.version>
         <spring-boot.version>2.1.5.RELEASE</spring-boot.version>
+        <micronaut.version>1.2.0</micronaut.version>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+        <maven-failsafe-plugin.version>2.22.2</maven-failsafe-plugin.version>
     </properties>
 
     <modules>
         <module>s3</module>
         <module>cognito</module>
+        <module>mn-cli-cognito</module>
     </modules>
 
     <dependencies>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
 
         <!--<dependency>-->
         <!--<groupId>org.springframework.boot</groupId>-->
@@ -53,6 +54,7 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
         </dependency>
+        
     </dependencies>
 
 
@@ -96,6 +98,14 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.micronaut</groupId>
+                <artifactId>micronaut-bom</artifactId>
+                <version>${micronaut.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
