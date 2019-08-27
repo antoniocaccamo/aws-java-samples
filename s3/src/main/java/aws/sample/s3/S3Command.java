@@ -1,6 +1,7 @@
 package aws.sample.s3;
 
 import aws.sample.s3.command.S3ListBucketCommand;
+import aws.sample.s3.command.S3UploadToUserBucket;
 import io.micronaut.configuration.picocli.PicocliRunner;
 import lombok.extern.slf4j.Slf4j;
 import picocli.CommandLine.Command;
@@ -10,7 +11,10 @@ import java.util.Arrays;
 import java.util.concurrent.Callable;
 
 @Command(name = "my-s3", description = "...",
-        subcommands={   S3ListBucketCommand.class
+        subcommands={
+            S3ListBucketCommand.class
+        ,   S3UploadToUserBucket.class
+
         },
         mixinStandardHelpOptions = true) @Slf4j
 public class S3Command implements Callable<Integer> {

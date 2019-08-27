@@ -39,6 +39,9 @@ public class CognitoHelper {
     @Inject
     private AuthenticationHelper authenticationHelper;
 
+
+    private GetIdResponse lastGetIdResponse;
+
     /**
      *
      * @param username
@@ -154,7 +157,6 @@ public class CognitoHelper {
 
             // get temp credential
 
-            GetCredentialsForIdentityRequest identityRequest;
             CognitoIdentityClient cognitoIdentityClient =
                     CognitoIdentityClient
                             .builder()
@@ -175,6 +177,8 @@ public class CognitoHelper {
 
             GetIdResponse idResponse = cognitoIdentityClient.getId(idRequest);
 
+            log.info("getting temp credentials for identity : {}", idResponse.identityId());
+
             GetCredentialsForIdentityRequest credentialsForIdentityRequest = GetCredentialsForIdentityRequest.builder()
                     .identityId(idResponse.identityId())
                     .logins(loginMap)
@@ -186,6 +190,7 @@ public class CognitoHelper {
 
             log.info("temp credentials : {}", credentialsForIdentityResponse.credentials());
 
+            lastGetIdResponse = idResponse;
 
             return credentialsForIdentityResponse.credentials();
 
@@ -196,4 +201,7 @@ public class CognitoHelper {
 
     }
 
+    public GetIdResponse getLastGetIdResponse() {
+        return lastGetIdResponse;
+    }
 }
