@@ -53,10 +53,10 @@ public class SignInCommand implements Callable<String> {
     public String call() {
 
         String authResult = StringUtils.EMPTY;
+        
+        log.info("trying authenticate user {} ..", username);
 
-        log.info("poolId {} clientId {}", poolId, clientId);
-
-        log.info("tryng creating user {} ..", username);
+        log.warn("poolId {} clientId {} region {} fedPoolId {}", poolId, clientId, region, fedPoolId);
 
         CognitoIdentityProviderClient cognitoIdentityProviderClient = null;
         try {
@@ -94,10 +94,14 @@ public class SignInCommand implements Callable<String> {
                         authenticationHelper.getRespondToAuthChallengeRequest(response, password);
                 RespondToAuthChallengeResponse challengeResponse = cognitoIdentityProviderClient.respondToAuthChallenge(challengeRequest);
                 //System.out.println(result);
-                log.info("result.authenticationResult().idToken() {}", CognitoJWTParser.getPayload(challengeResponse.authenticationResult().idToken()));
+                
                 String idToken = challengeResponse.authenticationResult().idToken();
                 JSONObject payload = CognitoJWTParser.getPayload(idToken);
+                log.info("authentication payload {}", payload);
+                
                 String providerId = payload.get("iss").toString().replace("https://", "");
+                log.info("providerId : {}", providerId);
+                
                 // get temp credential
 
                 GetCredentialsForIdentityRequest identityRequest;
@@ -110,8 +114,12 @@ public class SignInCommand implements Callable<String> {
                         ;
 
                 Map<String, String> loginMap = new HashMap<>();
-                loginMap.put(providerId, username);
+                loginMap.put(providerId, idToken);
+                
+                log.info("loginMap : {}", loginMap);
+                
                 GetIdRequest idRequest = GetIdRequest.builder()
+                        //.accountId(username)
                         .identityPoolId(fedPoolId)
                         .logins(loginMap)
                         .build()
@@ -134,6 +142,7 @@ public class SignInCommand implements Callable<String> {
 
                 authResult = credentialsForIdentityResponse.credentials().accessKeyId();
             }
+            
         } catch (Exception e) {
             log.error("error occurred", e);
             //return  -1;

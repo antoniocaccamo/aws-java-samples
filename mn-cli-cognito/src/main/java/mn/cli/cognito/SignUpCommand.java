@@ -40,7 +40,7 @@ public class SignUpCommand implements Callable<String>{
 
         log.info("poolId {} clientId {}", poolId, clientId);
 
-        log.info("tryng creating user {} .." , username);
+        log.info("trying creating user {} .." , username);
 
         CognitoIdentityProviderClient cognitoIdentityProviderClient = null;
         try {
