@@ -1,28 +1,26 @@
-package aws.sample.cognito;
+package aws.sample.s3;
 
+import aws.sample.s3.command.S3ListBucketCommand;
 import io.micronaut.configuration.picocli.PicocliRunner;
-
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 import java.util.Arrays;
 import java.util.concurrent.Callable;
 
-@Command(name = "mn-cli-cognito", description = "...",
-        subcommands={   SignUpCommand.class,
-                        SignInCommand.class
+@Command(name = "my-s3", description = "...",
+        subcommands={   S3ListBucketCommand.class
         },
         mixinStandardHelpOptions = true) @Slf4j
-public class MnCliCognitoCommand implements Callable<Integer> {
+public class S3Command implements Callable<Integer> {
 
     @Option(names = {"-v", "--verbose"}, description = "...")
     boolean verbose;
 
     public static void main(String[] args) throws Exception {
         log.info("args : {}", Arrays.asList(args));
-        PicocliRunner.call( MnCliCognitoCommand.class, args);
+        PicocliRunner.call( S3Command.class, args);
     }
 
     public Integer call() {

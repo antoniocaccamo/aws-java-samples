@@ -1,4 +1,4 @@
-package aws.sample.cognito.helpers;
+package aws.sample.helpers;
 
 import io.micronaut.context.annotation.Value;
 import lombok.extern.slf4j.Slf4j;

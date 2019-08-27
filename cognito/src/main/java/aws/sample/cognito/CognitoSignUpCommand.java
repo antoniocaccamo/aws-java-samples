@@ -1,17 +1,17 @@
 package aws.sample.cognito;
 
-import aws.sample.cognito.helpers.CognitoHelper;
+import aws.sample.helpers.CognitoHelper;
 import io.micronaut.context.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
-import software.amazon.awssdk.services.cognitoidentity.model.Credentials;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.concurrent.Callable;
 
-@Command( name = "signIn") @Slf4j
-public class SignInCommand implements Callable<Integer> {
+@Command( name = "signUp") @Slf4j @Singleton
+public class CognitoSignUpCommand implements Callable<Integer>{
 
     @Value("${app.aws.cognito.pool-id}")
     private String poolId;
@@ -22,13 +22,16 @@ public class SignInCommand implements Callable<Integer> {
     @Value("${app.aws.cognito.region}")
     private String region;
 
-    @Value("${app.aws.cognito.fed-pool-id}")
-    private String fedPoolId;
-
     @Option(required = true, names = {"-u", "--username"})
     private String username;
 
-    @Option(names = {"-p", "--password"}, description = "enter password", interactive = true, required = true)
+    @Option(required = true, names = {"-n", "--name"})
+    private String name;
+
+    @Option(required = true, names = {"-e", "--email"})
+    private String email;
+
+    @Option(names = {"-p", "--password"}, description = "Passphrase", interactive = true, required = true)
     private String password;
 
     @Inject
@@ -37,10 +40,12 @@ public class SignInCommand implements Callable<Integer> {
     @Override
     public Integer call() {
 
-        log.info("trying authenticate user {} ..", username);
 
-        Credentials credentials = cognitoHelper.signIn(username, password);
+        boolean result = cognitoHelper.signUp(username, password, name, email);
 
-        return credentials != null ? Integer.valueOf(0) : Integer.valueOf(1);
+        if (result)
+            return Integer.valueOf(0);
+        return Integer.valueOf(1);
     }
+    
 }

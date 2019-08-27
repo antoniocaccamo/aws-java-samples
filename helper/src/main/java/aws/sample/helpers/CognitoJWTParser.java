@@ -1,4 +1,4 @@
-package aws.sample.cognito.helpers;
+package aws.sample.helpers;
 
 import javax.inject.Singleton;
 import java.io.UnsupportedEncodingException;

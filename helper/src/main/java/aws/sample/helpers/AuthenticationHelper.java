@@ -1,4 +1,4 @@
-package aws.sample.cognito.helpers;
+package aws.sample.helpers;
 
 /**
  * Created by antonio on 25/08/2019.

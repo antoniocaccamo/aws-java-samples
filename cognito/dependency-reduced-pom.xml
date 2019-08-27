@@ -9,98 +9,6 @@
   <artifactId>aws-java-sample-cognito</artifactId>
   <name>aws : java-sample : cognito</name>
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>${maven-surefire-plugin.version}</version>
-          <configuration>
-            <detail>true</detail>
-            <includes>
-              <include>%regex[.*]</include>
-            </includes>
-          </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-failsafe-plugin</artifactId>
-          <version>${maven-failsafe-plugin.version}</version>
-          <executions>
-            <execution>
-              <goals>
-                <goal>integration-test</goal>
-                <goal>verify</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.7.0</version>
-          <executions>
-            <execution>
-              <id>test-compile</id>
-              <goals>
-                <goal>testCompile</goal>
-              </goals>
-              <configuration>
-                <compilerArgs>
-                  <arg>-parameters</arg>
-                </compilerArgs>
-                <annotationProcessorPaths>
-                  <path>
-                    <groupId>io.micronaut</groupId>
-                    <artifactId>micronaut-inject-java</artifactId>
-                    <version>${micronaut.version}</version>
-                  </path>
-                  <path>
-                    <groupId>io.micronaut</groupId>
-                    <artifactId>micronaut-validation</artifactId>
-                    <version>${micronaut.version}</version>
-                  </path>
-                  <path>
-                    <groupId>io.micronaut</groupId>
-                    <artifactId>micronaut-core</artifactId>
-                    <version>${micronaut.version}</version>
-                  </path>
-                  <path>
-                    <groupId>io.micronaut.configuration</groupId>
-                    <artifactId>micronaut-picocli</artifactId>
-                    <version>${micronaut.version}</version>
-                  </path>
-                </annotationProcessorPaths>
-              </configuration>
-            </execution>
-          </executions>
-          <configuration>
-            <compilerArgs>
-              <arg>-parameters</arg>
-            </compilerArgs>
-            <annotationProcessorPaths>
-              <path>
-                <groupId>io.micronaut</groupId>
-                <artifactId>micronaut-inject-java</artifactId>
-                <version>${micronaut.version}</version>
-              </path>
-              <path>
-                <groupId>io.micronaut</groupId>
-                <artifactId>micronaut-validation</artifactId>
-                <version>${micronaut.version}</version>
-              </path>
-              <path>
-                <groupId>io.micronaut.configuration</groupId>
-                <artifactId>micronaut-picocli</artifactId>
-                <version>${micronaut.version}</version>
-              </path>
-              <path>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
-              </path>
-            </annotationProcessorPaths>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
@@ -196,7 +104,7 @@
     </dependency>
   </dependencies>
   <properties>
-    <exec.mainClass>aws.sample.cognito.MnCliCognitoCommand</exec.mainClass>
+    <exec.mainClass>aws.sample.cognito.CognitoCommand</exec.mainClass>
   </properties>
 </project>
 

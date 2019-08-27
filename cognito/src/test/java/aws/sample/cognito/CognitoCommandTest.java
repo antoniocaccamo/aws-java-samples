@@ -1,17 +1,16 @@
-package mn.cli.cognito;
+package aws.sample.cognito;
 
-import aws.sample.cognito.MnCliCognitoCommand;
 import io.micronaut.configuration.picocli.PicocliRunner;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class MnCliCognitoCommandTest {
+class CognitoCommandTest {
 
     @Test
     public void testWithCommandLineOption() throws Exception {
@@ -20,10 +19,11 @@ public class MnCliCognitoCommandTest {
 
         try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
             String[] args = new String[] { "-v" };
-            PicocliRunner.call(MnCliCognitoCommand.class, ctx, args);
+            PicocliRunner.call(CognitoCommand.class, ctx, args);
 
             // mn-cli-cognito
             assertTrue(baos.toString().contains("Hi!"));
         }
     }
+
 }
