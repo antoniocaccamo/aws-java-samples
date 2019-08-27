@@ -97,7 +97,7 @@ public class SignInCommand implements Callable<String> {
                 log.info("result.authenticationResult().idToken() {}", CognitoJWTParser.getPayload(challengeResponse.authenticationResult().idToken()));
                 String idToken = challengeResponse.authenticationResult().idToken();
                 JSONObject payload = CognitoJWTParser.getPayload(idToken);
-                String provider = payload.get("iss").toString().replace("https://", "");
+                String providerId = payload.get("iss").toString().replace("https://", "");
                 // get temp credential
 
                 GetCredentialsForIdentityRequest identityRequest;
@@ -109,9 +109,11 @@ public class SignInCommand implements Callable<String> {
                             .build()
                         ;
 
+                Map<String, String> loginMap = new HashMap<>();
+                loginMap.put(providerId, username);
                 GetIdRequest idRequest = GetIdRequest.builder()
                         .identityPoolId(fedPoolId)
-                        .logins()
+                        .logins(loginMap)
                         .build()
                         ;
 
@@ -119,14 +121,18 @@ public class SignInCommand implements Callable<String> {
 
                 GetCredentialsForIdentityRequest credentialsForIdentityRequest = GetCredentialsForIdentityRequest.builder()
                         .identityId(idResponse.identityId())
-                        .logins()
+                        .logins(loginMap)
                         .build()
                         ;
 
                 GetCredentialsForIdentityResponse credentialsForIdentityResponse =
                         cognitoIdentityClient.getCredentialsForIdentity(credentialsForIdentityRequest);
 
-                credentialsForIdentityResponse
+
+                log.info( "temp credentials : {}" , credentialsForIdentityResponse.credentials() );
+
+
+                authResult = credentialsForIdentityResponse.credentials().accessKeyId();
             }
         } catch (Exception e) {
             log.error("error occurred", e);
