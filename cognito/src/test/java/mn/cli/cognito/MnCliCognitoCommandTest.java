@@ -1,5 +1,6 @@
 package mn.cli.cognito;
 
+import aws.sample.cognito.MnCliCognitoCommand;
 import io.micronaut.configuration.picocli.PicocliRunner;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;

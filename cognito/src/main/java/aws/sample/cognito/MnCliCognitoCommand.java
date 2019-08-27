@@ -1,15 +1,11 @@
-package mn.cli.cognito;
+package aws.sample.cognito;
 
 import io.micronaut.configuration.picocli.PicocliRunner;
-import io.micronaut.context.ApplicationContext;
 
-import io.micronaut.context.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
-import picocli.CommandLine.Parameters;
 
 import java.util.Arrays;
 import java.util.concurrent.Callable;
@@ -19,7 +15,7 @@ import java.util.concurrent.Callable;
                         SignInCommand.class
         },
         mixinStandardHelpOptions = true) @Slf4j
-public class MnCliCognitoCommand implements Callable<String> {
+public class MnCliCognitoCommand implements Callable<Integer> {
 
     @Option(names = {"-v", "--verbose"}, description = "...")
     boolean verbose;
@@ -29,13 +25,13 @@ public class MnCliCognitoCommand implements Callable<String> {
         PicocliRunner.call( MnCliCognitoCommand.class, args);
     }
 
-    public String call() {
+    public Integer call() {
         // business logic here
 
         if (verbose) {
             System.out.println("Hi!");
         }
 
-        return StringUtils.EMPTY;
+        return 0;
     }
 }

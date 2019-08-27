@@ -1,4 +1,4 @@
-package mn.cli.cognito.helpers;
+package aws.sample.cognito.helpers;
 
 /**
  * Created by antonio on 25/08/2019.

@@ -34,7 +34,6 @@
     <modules>
         <module>s3</module>
         <module>cognito</module>
-        <module>mn-cli-cognito</module>
     </modules>
 
     <dependencies>
