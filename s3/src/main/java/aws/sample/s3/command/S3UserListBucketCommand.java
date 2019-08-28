@@ -17,7 +17,7 @@ import software.amazon.awssdk.services.s3.model.ListBucketsResponse;
 import javax.inject.Inject;
 import java.util.concurrent.Callable;
 
-@Command(name = "user-upload") @Slf4j
+@Command(name = "user-ls") @Slf4j
 public class S3UserListBucketCommand  implements Callable<Integer> {
 
     @Option(required = true, names = {"-u", "--username"})
