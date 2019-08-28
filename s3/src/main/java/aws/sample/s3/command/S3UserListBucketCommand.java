@@ -5,7 +5,7 @@ import io.micronaut.context.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.AwsSessionCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.cognitoidentity.model.Credentials;
@@ -41,12 +41,18 @@ public class S3UserListBucketCommand  implements Callable<Integer> {
             GetIdResponse idResponse = cognitoHelper.getLastGetIdResponse();
             log.info("got temporary credential");
             try (
-                    S3Client s3Client = S3Client.builder()
+                        S3Client s3Client = S3Client.builder()
                             .region(Region.of(region))
                             .credentialsProvider(
-                                    StaticCredentialsProvider.create(AwsBasicCredentials.create(credentials.accessKeyId(), credentials.secretKey()))
+                                    StaticCredentialsProvider.create(
+                                            AwsSessionCredentials.create(
+                                                    credentials.accessKeyId(),
+                                                    credentials.secretKey(),
+                                                    credentials.sessionToken()
+                                            )
+                                    )
                             )
-                            .build();
+                            .build()
             ) {
                 log.info("list buckets :");
                 ListBucketsRequest listBucketsRequest = ListBucketsRequest.builder().build();

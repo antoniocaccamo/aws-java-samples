@@ -5,7 +5,7 @@ import io.micronaut.context.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.AwsSessionCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.cognitoidentity.model.Credentials;
@@ -55,12 +55,18 @@ public class S3UserUploadToBucket implements Callable<Integer> {
 
             log.info("got temporary credential");
             try (
-                    S3Client s3Client = S3Client.builder()
+                        S3Client s3Client = S3Client.builder()
                             .region(Region.of(region))
                             .credentialsProvider(
-                                    StaticCredentialsProvider.create(AwsBasicCredentials.create(credentials.accessKeyId(), credentials.secretKey()))
+                                    StaticCredentialsProvider.create(
+                                            AwsSessionCredentials.create(
+                                                    credentials.accessKeyId(),
+                                                    credentials.secretKey(),
+                                                    credentials.sessionToken()
+                                            )
+                                    )
                             )
-                            .build();
+                            .build()
             ) {
                 String key = new StringBuffer(s3BucketPrefix).append("/")
                         .append(idResponse.identityId()).append("/")
@@ -79,15 +85,16 @@ public class S3UserUploadToBucket implements Callable<Integer> {
                                 .key(key)
                                 .build();
                 PutObjectResponse putObjectResponse = s3Client.putObject(putObjectRequest, file.toPath());
-                log.info("putObjectResponse : {}", putObjectResponse.sdkHttpResponse());
+                log.info("putObjectResponse : {} {}", putObjectResponse.sdkHttpResponse().statusCode(), putObjectResponse.sdkHttpResponse().statusText());
 //            } else {
 //                log.error("can't create bucket {}", bucketName);
 //            }
+
+                return 0;
             } catch (Exception e) {
                 log.error("error occurred : {}", e.getMessage());
                 return 2;
             }
-            return 0;
         } catch (Exception e) {
             log.error("error occurred : {}", e.getMessage());
             return 1;
