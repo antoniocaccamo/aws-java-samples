@@ -22,10 +22,10 @@ public class S3ListBucketCommand implements Callable<Integer>{
     public Integer call() throws Exception{
     log.info("creating S3 client..");
         try (S3Client s3 = S3Client.builder().build()){
-            log.info("list buckets..");
+            log.info("list buckets :");
             ListBucketsRequest listBucketsRequest = ListBucketsRequest.builder().build();
             ListBucketsResponse listBucketsResponse = s3.listBuckets(listBucketsRequest);
-            listBucketsResponse.buckets().stream().forEach(x -> System.out.println(x.name()));
+            listBucketsResponse.buckets().stream().forEach(x -> log.info("\t{}", x.name()));
         }catch (Exception e){
             log.error("error occurred", e);
         }

@@ -1,7 +1,8 @@
 package aws.sample.s3;
 
 import aws.sample.s3.command.S3ListBucketCommand;
-import aws.sample.s3.command.S3UploadToUserBucket;
+import aws.sample.s3.command.S3UserListBucketCommand;
+import aws.sample.s3.command.S3UserUploadToBucket;
 import io.micronaut.configuration.picocli.PicocliRunner;
 import lombok.extern.slf4j.Slf4j;
 import picocli.CommandLine.Command;
@@ -12,9 +13,9 @@ import java.util.concurrent.Callable;
 
 @Command(name = "my-s3", description = "...",
         subcommands={
-            S3ListBucketCommand.class
-        ,   S3UploadToUserBucket.class
-
+                S3ListBucketCommand.class,
+                S3UserListBucketCommand.class,
+                S3UserUploadToBucket.class
         },
         mixinStandardHelpOptions = true) @Slf4j
 public class S3Command implements Callable<Integer> {
@@ -29,11 +30,6 @@ public class S3Command implements Callable<Integer> {
 
     public Integer call() {
         // business logic here
-
-        if (verbose) {
-            System.out.println("Hi!");
-        }
-
         return 0;
     }
 }

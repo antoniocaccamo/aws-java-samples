@@ -20,8 +20,8 @@ import javax.inject.Inject;
 import java.io.File;
 import java.util.concurrent.Callable;
 
-@Command(name = "uploadUser") @Slf4j
-public class S3UploadToUserBucket implements Callable<Integer> {
+@Command(name = "user-upload") @Slf4j
+public class S3UserUploadToBucket implements Callable<Integer> {
 
     @Option(required = true, names = {"-u", "--username"})
     private String username;
@@ -47,28 +47,26 @@ public class S3UploadToUserBucket implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
+        try {
+            log.info("trying access for user : {}", username);
+            Credentials credentials = cognitoHelper.signIn(username, password);
 
-        log.info("trying access for user : {}", username);
+            GetIdResponse idResponse = cognitoHelper.getLastGetIdResponse();
 
-
-        Credentials credentials = cognitoHelper.signIn(username, password);
-
-        GetIdResponse idResponse = cognitoHelper.getLastGetIdResponse();
-
-        log.info("got temporary credential");
-        try (
-            S3Client s3Client =S3Client.builder()
-                    .region(Region.of(region))
-                    .credentialsProvider(
-                            StaticCredentialsProvider.create( AwsBasicCredentials.create(credentials.accessKeyId(), credentials.secretKey()))
-                    )
-                    .build();
-        ){
-            String key = new StringBuffer(s3BucketPrefix).append("/")
-                            .append(idResponse.identityId()).append("/")
-                            .append(file.getName())
-                            .toString();
-            log.info("uploading file [{}] to bucket [{}] with key [{}] ...", file.getAbsolutePath(), s3BucketName, key);
+            log.info("got temporary credential");
+            try (
+                    S3Client s3Client = S3Client.builder()
+                            .region(Region.of(region))
+                            .credentialsProvider(
+                                    StaticCredentialsProvider.create(AwsBasicCredentials.create(credentials.accessKeyId(), credentials.secretKey()))
+                            )
+                            .build();
+            ) {
+                String key = new StringBuffer(s3BucketPrefix).append("/")
+                        .append(idResponse.identityId()).append("/")
+                        .append(file.getName())
+                        .toString();
+                log.info("uploading file [{}] to bucket [{}] with key [{}] ...", file.getAbsolutePath(), s3BucketName, key);
 //            CreateBucketResponse createBucketResponse= s3Client.createBucket(CreateBucketRequest
 //                    .builder()
 //                    .bucket(bucketName)
@@ -81,16 +79,18 @@ public class S3UploadToUserBucket implements Callable<Integer> {
                                 .key(key)
                                 .build();
                 PutObjectResponse putObjectResponse = s3Client.putObject(putObjectRequest, file.toPath());
-                log.info( "putObjectResponse : {}", putObjectResponse.sdkHttpResponse() );
+                log.info("putObjectResponse : {}", putObjectResponse.sdkHttpResponse());
 //            } else {
 //                log.error("can't create bucket {}", bucketName);
 //            }
-        } catch (Exception e){
+            } catch (Exception e) {
+                log.error("error occurred : {}", e.getMessage());
+                return 2;
+            }
+            return 0;
+        } catch (Exception e) {
             log.error("error occurred : {}", e.getMessage());
+            return 1;
         }
-
-
-
-        return 0;
     }
 }
