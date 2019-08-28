@@ -78,7 +78,7 @@ public class S3UploadToUserBucket implements Callable<Integer> {
                 PutObjectRequest putObjectRequest =
                         PutObjectRequest.builder()
                                 .bucket(s3BucketName)
-                                .key(file.getName())
+                                .key(key)
                                 .build();
                 PutObjectResponse putObjectResponse = s3Client.putObject(putObjectRequest, file.toPath());
                 log.info( "putObjectResponse : {}", putObjectResponse.sdkHttpResponse() );
